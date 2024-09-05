@@ -14,19 +14,20 @@ interface Empresa {
   pais: string
 }
 
-async function fetchData() {
+async function fetchData2() {
   const URL = "https://api.origamid.dev/json/notebook.json"
 
   try {
     const res = await fetch(URL)
     const data = await res.json()
     console.log(data)
+    preencherDados(data)
   } catch (err) {
     console.error(err)
   }
 }
 
-fetchData()
+fetchData2()
 
 function preencherDados({
   nome,
@@ -39,12 +40,25 @@ function preencherDados({
 }: Notebook) {
   document.body.innerHTML += `
     <div>
-      <h1>${nome}</h1>  
+      <h1>${nome}</h1>
+      <span>${descricao}</span>
+      </br>
+      </br>
+
       <b>Apenas: R$${preco}</b>
       </br>
       </br>
 
-      <span>${garantia ? "Em estoque!" : "Esgotado =("}</span>
+      <p>Fabricado por: ${empresaFabricante.nome}, na fábrica da ${
+    empresaFabricante.pais
+  }</p>
+
+      ${
+        garantia
+          ? '<span style="color: #ff993b"> Em estoque! </span>'
+          : '<span style="color: #a3261c"> Esgotado =( </span>'
+      }
+
     </div>
   `
 }
